@@ -1,13 +1,15 @@
 <?php
 namespace Flowpack\SimpleSearch\ContentRepositoryAdaptor\Search;
 
+use TYPO3\Eel\ProtectedContextAwareInterface;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use TYPO3\TYPO3CR\Search\Search\QueryBuilderInterface;
 
 /**
  * Query Builder for Content Repository searches
  */
-class SqLiteQueryBuilder extends \Flowpack\SimpleSearch\Search\SqLiteQueryBuilder implements \TYPO3\TYPO3CR\Search\Search\QueryBuilderInterface, \TYPO3\Eel\ProtectedContextAwareInterface {
+class SqLiteQueryBuilder extends \Flowpack\SimpleSearch\Search\SqLiteQueryBuilder implements QueryBuilderInterface, ProtectedContextAwareInterface {
 
 	/**
 	 * @Flow\Inject
@@ -52,7 +54,7 @@ class SqLiteQueryBuilder extends \Flowpack\SimpleSearch\Search\SqLiteQueryBuilde
 
 	/**
 	 * @param NodeInterface $contextNode
-	 * @return QueryBuilder
+	 * @return QueryBuilderInterface
 	 */
 	public function query(NodeInterface $contextNode) {
 		$this->where[] = "(__parentPath LIKE '%#" . $contextNode->getPath() . "#%' OR __path LIKE '" . $contextNode->getPath() . "')";
@@ -71,7 +73,7 @@ class SqLiteQueryBuilder extends \Flowpack\SimpleSearch\Search\SqLiteQueryBuilde
 	 * Filter by node type, taking inheritance into account.
 	 *
 	 * @param string $nodeType the node type to filter for
-	 * @return QueryBuilder
+	 * @return QueryBuilderInterface
 	 */
 	public function nodeType($nodeType) {
 		$this->where[] = "(__typeAndSuperTypes LIKE '%#" . $nodeType . "#%')";
@@ -84,7 +86,7 @@ class SqLiteQueryBuilder extends \Flowpack\SimpleSearch\Search\SqLiteQueryBuilde
 	 *
 	 * @param $propertyName
 	 * @param $propertyValue
-	 * @return QueryBuilder
+	 * @return QueryBuilderInterface
 	 */
 	public function exactMatch($propertyName, $propertyValue) {
 		if ($propertyValue instanceof NodeInterface) {
@@ -99,7 +101,7 @@ class SqLiteQueryBuilder extends \Flowpack\SimpleSearch\Search\SqLiteQueryBuilde
 	 *
 	 * @param $propertyName
 	 * @param $propertyValue
-	 * @return QueryBuilder
+	 * @return QueryBuilderInterface
 	 */
 	public function like($propertyName, $propertyValue) {
 		if ($propertyValue instanceof NodeInterface) {
