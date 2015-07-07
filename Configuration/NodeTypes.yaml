@@ -59,30 +59,36 @@
   search:
     fulltext:
       enable: TRUE
-  properties:
-    text:
-      search:
-        fulltextExtractor: "${Indexing.extractHtmlTags(node.properties.text)}"
 
 'TYPO3.Neos.NodeTypes:Headline':
   search:
     fulltext:
       enable: TRUE
+
+'TYPO3.Neos.NodeTypes:TitleMixin':
   properties:
     title:
       search:
         fulltextExtractor: "${Indexing.extractHtmlTags(node.properties.title)}"
+
+'TYPO3.Neos.NodeTypes:TextMixin':
+  properties:
+    text:
+      search:
+        fulltextExtractor: "${Indexing.extractHtmlTags(node.properties.text)}"
+
+
+'TYPO3.Neos.NodeTypes:ImageCaptionMixin':
+  properties:
+    caption:
+      search:
+        fulltextExtractor: "${Indexing.extractHtmlTags(node.properties.caption)}"
 
 'TYPO3.Neos:Document':
   search:
     fulltext:
       isRoot: TRUE
       enable: TRUE
-  properties:
-    title:
-      search:
-        fulltextExtractor: "${Indexing.extractHtmlTags(node.properties.title)}"
-
 
 'Flowpack.SimpleSearch.ContentRepositoryAdaptor:Search':
   superTypes: ['TYPO3.Neos:Content']
